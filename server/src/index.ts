@@ -27,7 +27,7 @@ app.get("/health", asyncHandler(async (req: Request, res: Response) => {
     })
 }));
 
-
+ 
 app.listen(Env.PORT, () => {
     console.log(`Server is running on port ${Env.PORT} in ${Env.NODE_ENV} mode`);
 })
