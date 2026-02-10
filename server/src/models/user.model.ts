@@ -3,12 +3,13 @@ import { compareValue, hashValue } from "../utils/bcrypt";
 
 
 export interface UserDocument extends Document {
-    name: string;
-    email: string;
-    password: string;
-   avatar?: string | null;
-    createdAt: Date;
-    updatedAt: Date;
+  name: string;
+  email: string;
+  password: string;
+  avatar?: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  comparePassword(val: string): Promise<boolean>;
 }
 
 const userSchema = new Schema<UserDocument>({

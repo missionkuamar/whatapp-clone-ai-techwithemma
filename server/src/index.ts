@@ -24,7 +24,7 @@ app.use(
 
 app.use(errorHandler);
 app.get("/health", asyncHandler(async (req: Request, res: Response) => {
-    res.status(HTTPSTATUS.ok).json({
+    res.status(HTTPSTATUS.OK).json({
         message: "Server is healthy",
         status: "OK",
     })

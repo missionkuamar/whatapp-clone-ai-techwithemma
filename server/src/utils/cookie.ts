@@ -1,0 +1,31 @@
+import jwt from "jsonwebtoken";
+import { Response } from "express";
+import { Env } from "../config/env.config";
+
+type Time = `${number}${"s" | "m" | "h" | "d" | "w" | "M" | "y"}`;
+
+type Cookie = {
+    res: Response;
+    userId: string;
+};
+
+export const setjwtAuthCookie = ({ res, userId }: Cookie) => {
+    const payload = { userId };
+
+    const expiresIn = (Env.JWT_EXPIRES_IN as Time) || "7d";
+
+    const token = jwt.sign(payload, Env.JWT_SECRET, {
+        audience: ["users"],
+        expiresIn,
+    });
+
+    return res.cookie("accessToken", token, {
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: Env.NODE_ENV === "production" ? "strict" : "lax",
+        secure: Env.NODE_ENV === "production",
+    });
+};
+
+export const clearJwtAuthCookie = (res: Response) =>
+    res.clearCookie("accessToken", { path: "/" });
